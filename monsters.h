@@ -135,7 +135,8 @@ class MonsterType
 		int32_t changeTargetChance =0;
 		int32_t defense = 0;
 		int32_t armor = 0;
-
+		int32_t saga = -1;
+		
 		bool canPushItems = false;
 		bool canPushCreatures = false;
 		bool pushable = true;

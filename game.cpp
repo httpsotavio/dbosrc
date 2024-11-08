@@ -3102,6 +3102,21 @@ void Game::playerSetAttackedCreature(uint32_t playerId, uint32_t creatureId)
 		return;
 	}
 
+	if (attackCreature->getMonster()) {
+		Monster monster = attackCreature->getMonster();
+		int32_t saga;
+		if (getStorageValue(PSTRG_SAGA, value)) {
+			if (saga == monster->getSaga()) {
+				std::ostringstream ss;
+				ss << "You cant attack this creature in your current saga.";
+				player->sendTextMessage(MESSAGE_INFO_DESCR, ss.str());
+				player->setAttackedCreature(nullptr);
+				player->sendCancelTarget();
+				return;
+			}
+		}
+	}
+	
 	ReturnValue ret = Combat::canTargetCreature(player, attackCreature);
 	if (ret != RETURNVALUE_NOERROR) {
 		player->sendCancelMessage(ret);

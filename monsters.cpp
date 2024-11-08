@@ -725,6 +725,10 @@ bool Monsters::loadMonster(const std::string& file, const std::string& monsterNa
 		mType->info.experience = pugi::cast<uint64_t>(attr.value());
 	}
 
+	if ((attr = monsterNode.attribute("saga"))) {
+		mType->info.saga = pugi::cast<int32_t>(attr.value());
+	}
+
 	if ((attr = monsterNode.attribute("speed"))) {
 		mType->info.baseSpeed = pugi::cast<int32_t>(attr.value());
 	}

@@ -368,12 +368,22 @@ void Monster::updateTargetList()
 	auto targetIterator = targetList.begin();
 	while (targetIterator != targetList.end()) {
 		Creature* creature = *targetIterator;
-		if (creature->getHealth() <= 0 || !canSee(creature->getPosition())) {
-			creature->decrementReferenceCounter();
-			targetIterator = targetList.erase(targetIterator);
-		} else {
+		if (creature->getHealth() > 0 || canSee(creature->getPosition())) {
+			if (creature->getPlayer()) {
+				int32_t saga;
+				if (getStorageValue(PSTRG_SAGA, value)) {
+					if (getSaga() == saga) {
+						creature->decrementReferenceCounter();
+						targetIterator = targetList.erase(targetIterator);
+						continue;
+					}
+				}
+			}
 			++targetIterator;
+			continue;
 		}
+		creature->decrementReferenceCounter();
+		targetIterator = targetList.erase(targetIterator);
 	}
 
 	SpectatorVec list;
