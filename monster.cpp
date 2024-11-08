@@ -369,16 +369,6 @@ void Monster::updateTargetList()
 	while (targetIterator != targetList.end()) {
 		Creature* creature = *targetIterator;
 		if (creature->getHealth() > 0 || canSee(creature->getPosition())) {
-			if (creature->getPlayer()) {
-				int32_t saga;
-				if (getStorageValue(PSTRG_SAGA, value)) {
-					if (getSaga() == saga) {
-						creature->decrementReferenceCounter();
-						targetIterator = targetList.erase(targetIterator);
-						continue;
-					}
-				}
-			}
 			++targetIterator;
 			continue;
 		}
@@ -465,6 +455,14 @@ bool Monster::isFriend(const Creature* creature) const
 
 bool Monster::isOpponent(const Creature* creature) const
 {
+	if (creature->getPlayer()) {
+		int32_t saga = -1;
+		creature->getPlayer()->getStorageValue(PSTRG_SAGA, saga);
+		if (getSaga() != saga) {
+			return false;
+		}
+	}
+
 	if (isSummon() && getMaster()->getPlayer()) {
 		if (creature != getMaster()) {
 			return true;
