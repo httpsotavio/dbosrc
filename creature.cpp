@@ -242,6 +242,10 @@ bool Creature::getNextStep(Direction& dir, uint32_t&)
 		return false;
 	}
 
+	if (isMovementBlocked()) {
+		return false;
+	}
+
 	dir = listWalkDir.front();
 	listWalkDir.pop_front();
 	onWalk(dir);

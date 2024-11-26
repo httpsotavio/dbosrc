@@ -142,6 +142,9 @@ class Creature : virtual public Thing
 		}
 
 		void setMovementBlocked(bool state) {
+			if (state == true) {
+				startAutoWalk();
+			}
 			movementBlocked = state;
 			cancelNextWalk = true;
 		}

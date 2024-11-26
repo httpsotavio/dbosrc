@@ -1871,6 +1871,10 @@ bool Monster::getCombatValues(int32_t& min, int32_t& max)
 
 void Monster::updateLookDirection()
 {
+	if (isMovementBlocked()) {
+		return;
+	}
+	
 	Direction newDir = getDirection();
 
 	if (attackedCreature) {
