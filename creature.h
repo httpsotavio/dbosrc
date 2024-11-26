@@ -141,6 +141,15 @@ class Creature : virtual public Thing
 			isInternalRemoved = true;
 		}
 
+		void setMovementBlocked(bool state) {
+			movementBlocked = state;
+			cancelNextWalk = true;
+		}
+
+		bool isMovementBlocked() const {
+			return movementBlocked;
+		}
+
 		uint32_t getID() const {
 			return id;
 		}
@@ -552,6 +561,7 @@ class Creature : virtual public Thing
 		bool forceUpdateFollowPath = false;
 		bool hiddenHealth = false;
 		bool canMove = true;
+		bool movementBlocked = false;
 
 		//creature script events
 		bool hasEventRegistered(CreatureEventType_t event) const {
